@@ -1,0 +1,71 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version "2.2.20" apply false
+    id "org.jetbrains.kotlin.plugin.allopen" version "2.2.20" apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version "2.2.20" apply false
+    id 'io.quarkus' apply false
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    
+    group = 'chiro.erp'
+    version = '1.0.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
+    apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+    apply plugin: 'io.quarkus'
+    
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    
+    dependencies {
+        implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+        implementation 'io.quarkus:quarkus-kotlin'
+        implementation 'io.quarkus:quarkus-arc'
+        
+        testImplementation 'io.quarkus:quarkus-junit5'
+        testImplementation 'io.rest-assured:rest-assured'
+    }
+    
+    test {
+        systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+        jvmArgs "--add-opens", "java.base/java.lang=ALL-UNNAMED"
+    }
+    
+    allOpen {
+        annotation("jakarta.ws.rs.Path")
+        annotation("jakarta.enterprise.context.ApplicationScoped")
+        annotation("jakarta.persistence.Entity")
+        annotation("io.quarkus.test.junit.QuarkusTest")
+    }
+    
+    compileKotlin {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+        kotlinOptions.javaParameters = true
+    }
+    
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    }
+}
+
+// Multi-module tasks
+task buildAllServices {
+    dependsOn subprojects.collect { it.tasks.named('build') }
+    description = 'Build all microservices'
+    group = 'build'
+}
+
+task cleanAllServices {
+    dependsOn subprojects.collect { it.tasks.named('clean') }
+    description = 'Clean all microservices'
+    group = 'build'
+}
