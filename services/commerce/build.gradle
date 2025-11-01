@@ -14,13 +14,16 @@ dependencies {
     // Core Quarkus dependencies only
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
-    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     
     // Essential extensions
     implementation 'io.quarkus:quarkus-smallrye-health'
+    
+    // Database dependencies (only active in prod)
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'io.quarkus:quarkus-reactive-pg-client'
-    implementation 'io.quarkus:quarkus-security'
+    
+    testImplementation 'io.quarkus:quarkus-junit5'
 }
 
 group = 'chiro.erp.commerce'
