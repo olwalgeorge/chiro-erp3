@@ -11,17 +11,40 @@ repositories {
 }
 
 dependencies {
-    // Core Quarkus dependencies only
+    // Core Quarkus dependencies
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
     implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    
-    // Essential extensions
-    implementation 'io.quarkus:quarkus-smallrye-health'
+
+    // Database
     implementation 'io.quarkus:quarkus-reactive-pg-client'
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+
+    // Messaging & Kafka
+    implementation 'io.quarkus:quarkus-messaging-kafka'
+
+    // Redis
+    implementation 'io.quarkus:quarkus-redis-client'
+
+    // Security & OIDC
+    implementation 'io.quarkus:quarkus-oidc'
     implementation 'io.quarkus:quarkus-security'
-    
+
+    // Keycloak Admin Client (for managing users/realms programmatically)
+    implementation 'io.quarkus:quarkus-keycloak-admin-rest-client'
+
+    // Email
+    implementation 'io.quarkus:quarkus-mailer'
+
+    // Monitoring & Observability
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+
+    // API Documentation
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+
+    // Testing
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }

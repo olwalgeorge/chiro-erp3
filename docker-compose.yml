@@ -100,6 +100,12 @@ services:
       - redis
       - kafka
       - keycloak
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -120,6 +126,12 @@ services:
       - redis
       - kafka
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -145,6 +157,12 @@ services:
       - kafka
       - minio
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -170,6 +188,12 @@ services:
       - kafka
       - minio
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -191,6 +215,12 @@ services:
       - redis
       - kafka
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -211,6 +241,12 @@ services:
       - redis
       - kafka
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -236,6 +272,12 @@ services:
       - kafka
       - minio
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
@@ -261,6 +303,12 @@ services:
       - kafka
       - minio
       - core-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087/q/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - chiro-erp-network
 
