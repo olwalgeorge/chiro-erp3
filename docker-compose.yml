@@ -43,15 +43,24 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper
     ports:
       - "9092:9092"
+      - "9093:9093"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka:9092,CONTROLLER://kafka:9094,PLAINTEXT_HOST://0.0.0.0:9093'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9094'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
     networks:
       - chiro-erp-network
     deploy:
@@ -63,6 +72,12 @@ services:
           cpus: '0.5'
           memory: 512M
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -118,7 +133,7 @@ services:
       KC_HOSTNAME_STRICT: false
       KC_HTTP_ENABLED: true
     ports:
-      - "8080:8080"
+      - "8180:8080"
     depends_on:
       - postgresql
     command: start-dev
@@ -147,7 +162,7 @@ services:
       DB_URL: postgresql://postgresql:5432/core_db
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
       KEYCLOAK_SERVER_URL: http://keycloak:8080
     depends_on:
       - postgresql
@@ -222,7 +237,7 @@ services:
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
     depends_on:
       - postgresql
       - redis
@@ -262,7 +277,7 @@ services:
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
     depends_on:
       - postgresql
       - redis
@@ -299,7 +314,7 @@ services:
       DB_URL: postgresql://postgresql:5432/finance_db
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
     depends_on:
       - postgresql
       - redis
@@ -373,7 +388,7 @@ services:
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
     depends_on:
       - postgresql
       - redis
@@ -413,7 +428,7 @@ services:
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
-      OIDC_SERVER_URL: http://keycloak:8080/realms/chiro-erp
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
     depends_on:
       - postgresql
       - redis
