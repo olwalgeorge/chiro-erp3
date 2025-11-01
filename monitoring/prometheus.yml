@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'core-platform'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['core-platform:8080']
+
+  - job_name: 'analytics-intelligence'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['analytics-intelligence:8081']
+
+  - job_name: 'commerce'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['commerce:8082']
+
+  - job_name: 'customer-relationship'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['customer-relationship:8083']
+
+  - job_name: 'financial-management'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['financial-management:8084']
+
+  - job_name: 'logistics-transportation'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['logistics-transportation:8085']
+
+  - job_name: 'operations-service'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['operations-service:8086']
+
+  - job_name: 'supply-chain-manufacturing'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets: ['supply-chain-manufacturing:8087']
+
+  - job_name: 'postgresql'
+    static_configs:
+      - targets: ['postgresql:5432']
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
