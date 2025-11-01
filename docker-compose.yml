@@ -15,6 +15,15 @@ services:
       - ./scripts/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
@@ -22,6 +31,15 @@ services:
       - "6379:6379"
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: unless-stopped
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -36,6 +54,15 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -46,6 +73,15 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: unless-stopped
 
   minio:
     image: minio/minio:latest
@@ -60,6 +96,15 @@ services:
       - minio_data:/data
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
@@ -79,6 +124,15 @@ services:
     command: start-dev
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   # ERP Microservices
   core-platform:
@@ -108,6 +162,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   analytics-intelligence:
     build:
@@ -134,6 +197,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   commerce:
     build:
@@ -165,6 +237,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   customer-relationship:
     build:
@@ -196,6 +277,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   financial-management:
     build:
@@ -223,6 +313,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   logistics-transportation:
     build:
@@ -249,6 +348,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   operations-service:
     build:
@@ -280,6 +388,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   supply-chain-manufacturing:
     build:
@@ -311,6 +428,15 @@ services:
       start_period: 60s
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
 
   # Monitoring
   prometheus:
@@ -321,6 +447,15 @@ services:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
@@ -332,6 +467,15 @@ services:
       - grafana_data:/var/lib/grafana
     networks:
       - chiro-erp-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: unless-stopped
 
 volumes:
   postgres_data:
