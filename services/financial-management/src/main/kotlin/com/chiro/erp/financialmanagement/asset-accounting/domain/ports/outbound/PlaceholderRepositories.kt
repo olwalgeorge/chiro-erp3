@@ -1,6 +1,6 @@
 package com.chiro.erp.financialmanagement.assetaccounting.domain.ports.outbound
 
-// asset-accounting Repositories (Outbound Ports) Placeholder  
+// asset-accounting Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-asset-management
 
 // TODO: Define repository interfaces for domain entities:

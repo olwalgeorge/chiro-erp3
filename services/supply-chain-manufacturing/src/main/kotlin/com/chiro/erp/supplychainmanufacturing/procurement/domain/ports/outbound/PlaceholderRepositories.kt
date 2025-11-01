@@ -1,6 +1,6 @@
 package com.chiro.erp.supplychainmanufacturing.procurement.domain.ports.outbound
 
-// procurement Repositories (Outbound Ports) Placeholder  
+// procurement Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-procurement-management
 
 // TODO: Define repository interfaces for domain entities:

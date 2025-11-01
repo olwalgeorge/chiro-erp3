@@ -1,6 +1,6 @@
 package com.chiro.erp.financialmanagement.expensemanagement.domain.ports.outbound
 
-// expense-management Repositories (Outbound Ports) Placeholder  
+// expense-management Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-expense-reports
 
 // TODO: Define repository interfaces for domain entities:

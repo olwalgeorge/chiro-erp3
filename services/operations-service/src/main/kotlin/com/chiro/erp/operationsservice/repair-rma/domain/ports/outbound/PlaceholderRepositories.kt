@@ -1,6 +1,6 @@
 package com.chiro.erp.operationsservice.repairrma.domain.ports.outbound
 
-// repair-rma Repositories (Outbound Ports) Placeholder  
+// repair-rma Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-repair-rma
 
 // TODO: Define repository interfaces for domain entities:

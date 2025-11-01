@@ -1,6 +1,6 @@
 package com.chiro.erp.coreplatform.notification.domain.ports.outbound
 
-// notification Repositories (Outbound Ports) Placeholder  
+// notification Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-notification-engine
 
 // TODO: Define repository interfaces for domain entities:

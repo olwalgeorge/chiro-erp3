@@ -1,6 +1,6 @@
 package com.chiro.erp.financialmanagement.generalledger.domain.ports.outbound
 
-// general-ledger Repositories (Outbound Ports) Placeholder  
+// general-ledger Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-accounting-core
 
 // TODO: Define repository interfaces for domain entities:

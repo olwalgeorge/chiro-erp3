@@ -1,6 +1,6 @@
 package com.chiro.erp.financialmanagement.accountspayable.domain.ports.outbound
 
-// accounts-payable Repositories (Outbound Ports) Placeholder  
+// accounts-payable Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-ap-automation
 
 // TODO: Define repository interfaces for domain entities:

@@ -1,6 +1,6 @@
 package com.chiro.erp.commerce.ecommerce.domain.ports.outbound
 
-// ecommerce Repositories (Outbound Ports) Placeholder  
+// ecommerce Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-ecomm-storefront
 
 // TODO: Define repository interfaces for domain entities:

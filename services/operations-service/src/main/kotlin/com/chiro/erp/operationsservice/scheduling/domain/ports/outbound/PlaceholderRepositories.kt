@@ -1,6 +1,6 @@
 package com.chiro.erp.operationsservice.scheduling.domain.ports.outbound
 
-// scheduling Repositories (Outbound Ports) Placeholder  
+// scheduling Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-resource-scheduling
 
 // TODO: Define repository interfaces for domain entities:

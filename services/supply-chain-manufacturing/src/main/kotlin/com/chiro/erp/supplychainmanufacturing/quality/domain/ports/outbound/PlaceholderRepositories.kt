@@ -1,6 +1,6 @@
 package com.chiro.erp.supplychainmanufacturing.quality.domain.ports.outbound
 
-// quality Repositories (Outbound Ports) Placeholder  
+// quality Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-quality-management
 
 // TODO: Define repository interfaces for domain entities:

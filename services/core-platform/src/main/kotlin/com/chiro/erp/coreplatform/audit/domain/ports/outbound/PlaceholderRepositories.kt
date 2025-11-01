@@ -1,6 +1,6 @@
 package com.chiro.erp.coreplatform.audit.domain.ports.outbound
 
-// audit Repositories (Outbound Ports) Placeholder  
+// audit Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-audit-logging
 
 // TODO: Define repository interfaces for domain entities:

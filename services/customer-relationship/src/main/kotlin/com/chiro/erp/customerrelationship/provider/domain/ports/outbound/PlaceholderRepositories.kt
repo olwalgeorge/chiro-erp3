@@ -1,6 +1,6 @@
 package com.chiro.erp.customerrelationship.provider.domain.ports.outbound
 
-// provider Repositories (Outbound Ports) Placeholder  
+// provider Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-provider-management
 
 // TODO: Define repository interfaces for domain entities:

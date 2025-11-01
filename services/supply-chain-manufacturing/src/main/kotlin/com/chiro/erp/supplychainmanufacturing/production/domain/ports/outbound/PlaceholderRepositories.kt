@@ -1,6 +1,6 @@
 package com.chiro.erp.supplychainmanufacturing.production.domain.ports.outbound
 
-// production Repositories (Outbound Ports) Placeholder  
+// production Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-mrp-production
 
 // TODO: Define repository interfaces for domain entities:

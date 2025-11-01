@@ -1,6 +1,6 @@
 package com.chiro.erp.logisticstransportation.fleet.domain.ports.outbound
 
-// fleet Repositories (Outbound Ports) Placeholder  
+// fleet Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-fleet-management
 
 // TODO: Define repository interfaces for domain entities:

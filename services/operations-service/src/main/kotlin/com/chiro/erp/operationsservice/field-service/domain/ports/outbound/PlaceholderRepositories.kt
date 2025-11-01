@@ -1,6 +1,6 @@
 package com.chiro.erp.operationsservice.fieldservice.domain.ports.outbound
 
-// field-service Repositories (Outbound Ports) Placeholder  
+// field-service Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-field-service-management
 
 // TODO: Define repository interfaces for domain entities:

@@ -39,3 +39,7 @@ nb-configuration.xml
 /.quarkus/cli/plugins/
 # TLS Certificates
 .certs/
+
+# ktlint JAR (download separately)
+ktlint.jar
+ktlint

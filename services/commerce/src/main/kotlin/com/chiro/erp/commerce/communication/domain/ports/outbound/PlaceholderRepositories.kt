@@ -1,6 +1,6 @@
 package com.chiro.erp.commerce.communication.domain.ports.outbound
 
-// communication Repositories (Outbound Ports) Placeholder  
+// communication Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-communication-portal
 
 // TODO: Define repository interfaces for domain entities:

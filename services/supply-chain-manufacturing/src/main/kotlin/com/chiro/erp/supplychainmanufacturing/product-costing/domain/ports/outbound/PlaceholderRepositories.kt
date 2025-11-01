@@ -1,6 +1,6 @@
 package com.chiro.erp.supplychainmanufacturing.productcosting.domain.ports.outbound
 
-// product-costing Repositories (Outbound Ports) Placeholder  
+// product-costing Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-cost-accounting
 
 // TODO: Define repository interfaces for domain entities:

@@ -1,6 +1,6 @@
 package com.chiro.erp.logisticstransportation.wms.domain.ports.outbound
 
-// wms Repositories (Outbound Ports) Placeholder  
+// wms Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-wms-advanced
 
 // TODO: Define repository interfaces for domain entities:

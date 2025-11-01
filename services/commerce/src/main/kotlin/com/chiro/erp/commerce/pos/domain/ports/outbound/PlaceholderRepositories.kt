@@ -1,6 +1,6 @@
 package com.chiro.erp.commerce.pos.domain.ports.outbound
 
-// pos Repositories (Outbound Ports) Placeholder  
+// pos Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-point-of-sale
 
 // TODO: Define repository interfaces for domain entities:

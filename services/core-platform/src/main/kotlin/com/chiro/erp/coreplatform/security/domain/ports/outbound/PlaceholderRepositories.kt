@@ -1,6 +1,6 @@
 package com.chiro.erp.coreplatform.security.domain.ports.outbound
 
-// security Repositories (Outbound Ports) Placeholder  
+// security Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-security-framework
 
 // TODO: Define repository interfaces for domain entities:
