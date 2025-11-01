@@ -1,6 +1,6 @@
 package com.chiro.erp.analyticsintelligence.reporting.domain.ports.outbound
 
-// reporting Repositories (Outbound Ports) Placeholder  
+// reporting Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-reporting-analytics
 
 // TODO: Define repository interfaces for domain entities:

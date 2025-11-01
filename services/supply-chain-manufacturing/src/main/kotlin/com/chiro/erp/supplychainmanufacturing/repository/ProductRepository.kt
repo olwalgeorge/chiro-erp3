@@ -9,31 +9,24 @@ import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class ProductRepository : PanacheRepository<Product> {
+    fun findBySku(sku: String): Uni<Product?> = find("sku", sku).firstResult()
 
-    fun findBySku(sku: String): Uni<Product?> =
-        find("sku", sku).firstResult()
+    fun findByCategory(category: ProductCategory): Uni<List<Product>> = find("category", category).list()
 
-    fun findByCategory(category: ProductCategory): Uni<List<Product>> =
-        find("category", category).list()
+    fun findByStatus(status: ProductStatus): Uni<List<Product>> = find("status", status).list()
 
-    fun findByStatus(status: ProductStatus): Uni<List<Product>> =
-        find("status", status).list()
+    fun findBySupplierId(supplierId: String): Uni<List<Product>> = find("supplierId", supplierId).list()
 
-    fun findBySupplierId(supplierId: String): Uni<List<Product>> =
-        find("supplierId", supplierId).list()
+    fun findLowStockProducts(): Uni<List<Product>> = find("stockQuantity <= minimumStock").list()
 
-    fun findLowStockProducts(): Uni<List<Product>> =
-        find("stockQuantity <= minimumStock").list()
+    fun findOutOfStockProducts(): Uni<List<Product>> = find("stockQuantity = 0").list()
 
-    fun findOutOfStockProducts(): Uni<List<Product>> =
-        find("stockQuantity = 0").list()
+    fun findActiveProducts(): Uni<List<Product>> = find("status", ProductStatus.ACTIVE).list()
 
-    fun findActiveProducts(): Uni<List<Product>> =
-        find("status", ProductStatus.ACTIVE).list()
+    fun searchByName(name: String): Uni<List<Product>> = find("LOWER(name) LIKE LOWER(?1)", "%$name%").list()
 
-    fun searchByName(name: String): Uni<List<Product>> =
-        find("LOWER(name) LIKE LOWER(?1)", "%$name%").list()
-
-    fun findByCategoryAndStatus(category: ProductCategory, status: ProductStatus): Uni<List<Product>> =
-        find("category = ?1 AND status = ?2", category, status).list()
+    fun findByCategoryAndStatus(
+        category: ProductCategory,
+        status: ProductStatus,
+    ): Uni<List<Product>> = find("category = ?1 AND status = ?2", category, status).list()
 }

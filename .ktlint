@@ -1,0 +1,14 @@
+# ktlint configuration file
+# See https://pinterest.github.io/ktlint/ for more information
+
+# Disabled rules (disable problematic rules for placeholder files)
+disabled_rules=standard:filename,standard:no-wildcard-imports
+
+# Import ordering
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^
+
+# Other formatting options
+indent_size=4
+continuation_indent_size=4
+max_line_length=120
+insert_final_newline=true

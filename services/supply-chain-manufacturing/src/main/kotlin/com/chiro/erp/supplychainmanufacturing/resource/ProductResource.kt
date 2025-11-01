@@ -16,7 +16,6 @@ import java.time.LocalDateTime
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class ProductResource {
-
     @Inject
     lateinit var productRepository: ProductRepository
 
@@ -25,7 +24,9 @@ class ProductResource {
 
     @GET
     @Path("/{id}")
-    fun getProduct(@PathParam("id") id: Long): Uni<Response> {
+    fun getProduct(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return productRepository.findById(id)
             .onItem().transform { product ->
                 if (product != null) {
@@ -38,7 +39,9 @@ class ProductResource {
 
     @GET
     @Path("/sku/{sku}")
-    fun getProductBySku(@PathParam("sku") sku: String): Uni<Response> {
+    fun getProductBySku(
+        @PathParam("sku") sku: String,
+    ): Uni<Response> {
         return productRepository.findBySku(sku)
             .onItem().transform { product ->
                 if (product != null) {
@@ -51,18 +54,21 @@ class ProductResource {
 
     @GET
     @Path("/category/{category}")
-    fun getProductsByCategory(@PathParam("category") category: ProductCategory): Uni<List<Product>> =
-        productRepository.findByCategory(category)
+    fun getProductsByCategory(
+        @PathParam("category") category: ProductCategory,
+    ): Uni<List<Product>> = productRepository.findByCategory(category)
 
     @GET
     @Path("/status/{status}")
-    fun getProductsByStatus(@PathParam("status") status: ProductStatus): Uni<List<Product>> =
-        productRepository.findByStatus(status)
+    fun getProductsByStatus(
+        @PathParam("status") status: ProductStatus,
+    ): Uni<List<Product>> = productRepository.findByStatus(status)
 
     @GET
     @Path("/supplier/{supplierId}")
-    fun getProductsBySupplier(@PathParam("supplierId") supplierId: String): Uni<List<Product>> =
-        productRepository.findBySupplierId(supplierId)
+    fun getProductsBySupplier(
+        @PathParam("supplierId") supplierId: String,
+    ): Uni<List<Product>> = productRepository.findBySupplierId(supplierId)
 
     @GET
     @Path("/low-stock")
@@ -88,7 +94,10 @@ class ProductResource {
     @PUT
     @Path("/{id}")
     @WithTransaction
-    fun updateProduct(@PathParam("id") id: Long, product: Product): Uni<Response> {
+    fun updateProduct(
+        @PathParam("id") id: Long,
+        product: Product,
+    ): Uni<Response> {
         return productRepository.findById(id)
             .onItem().transformToUni { existingProduct ->
                 if (existingProduct != null) {
@@ -114,7 +123,9 @@ class ProductResource {
     @DELETE
     @Path("/{id}")
     @WithTransaction
-    fun deleteProduct(@PathParam("id") id: Long): Uni<Response> {
+    fun deleteProduct(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return productRepository.deleteById(id)
             .onItem().transform { deleted ->
                 if (deleted) {
@@ -127,7 +138,9 @@ class ProductResource {
 
     @GET
     @Path("/search")
-    fun searchProducts(@QueryParam("name") name: String?): Uni<List<Product>> {
+    fun searchProducts(
+        @QueryParam("name") name: String?,
+    ): Uni<List<Product>> {
         return if (!name.isNullOrBlank()) {
             productRepository.searchByName(name)
         } else {

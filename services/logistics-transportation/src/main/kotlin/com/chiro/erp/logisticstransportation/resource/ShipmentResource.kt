@@ -15,7 +15,6 @@ import java.time.LocalDateTime
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class ShipmentResource {
-
     @Inject
     lateinit var shipmentRepository: ShipmentRepository
 
@@ -24,7 +23,9 @@ class ShipmentResource {
 
     @GET
     @Path("/{id}")
-    fun getShipment(@PathParam("id") id: Long): Uni<Response> {
+    fun getShipment(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return shipmentRepository.findById(id)
             .onItem().transform { shipment ->
                 if (shipment != null) {
@@ -37,7 +38,9 @@ class ShipmentResource {
 
     @GET
     @Path("/tracking/{trackingNumber}")
-    fun trackShipment(@PathParam("trackingNumber") trackingNumber: String): Uni<Response> {
+    fun trackShipment(
+        @PathParam("trackingNumber") trackingNumber: String,
+    ): Uni<Response> {
         return shipmentRepository.findByTrackingNumber(trackingNumber)
             .onItem().transform { shipment ->
                 if (shipment != null) {
@@ -50,13 +53,15 @@ class ShipmentResource {
 
     @GET
     @Path("/customer/{customerId}")
-    fun getShipmentsByCustomer(@PathParam("customerId") customerId: String): Uni<List<Shipment>> =
-        shipmentRepository.findByCustomerId(customerId)
+    fun getShipmentsByCustomer(
+        @PathParam("customerId") customerId: String,
+    ): Uni<List<Shipment>> = shipmentRepository.findByCustomerId(customerId)
 
     @GET
     @Path("/status/{status}")
-    fun getShipmentsByStatus(@PathParam("status") status: ShipmentStatus): Uni<List<Shipment>> =
-        shipmentRepository.findByStatus(status)
+    fun getShipmentsByStatus(
+        @PathParam("status") status: ShipmentStatus,
+    ): Uni<List<Shipment>> = shipmentRepository.findByStatus(status)
 
     @GET
     @Path("/active")
@@ -78,7 +83,10 @@ class ShipmentResource {
     @PUT
     @Path("/{id}")
     @WithTransaction
-    fun updateShipment(@PathParam("id") id: Long, shipment: Shipment): Uni<Response> {
+    fun updateShipment(
+        @PathParam("id") id: Long,
+        shipment: Shipment,
+    ): Uni<Response> {
         return shipmentRepository.findById(id)
             .onItem().transformToUni { existingShipment ->
                 if (existingShipment != null) {
@@ -99,7 +107,9 @@ class ShipmentResource {
     @DELETE
     @Path("/{id}")
     @WithTransaction
-    fun deleteShipment(@PathParam("id") id: Long): Uni<Response> {
+    fun deleteShipment(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return shipmentRepository.deleteById(id)
             .onItem().transform { deleted ->
                 if (deleted) {

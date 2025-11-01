@@ -7,39 +7,38 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "vehicles")
 class Vehicle : PanacheEntity() {
-    
     @Column(nullable = false, unique = true)
     lateinit var vehicleNumber: String
-    
+
     @Column(nullable = false)
     lateinit var licensePlate: String
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     lateinit var type: VehicleType
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     lateinit var status: VehicleStatus
-    
+
     @Column
     var driverId: String? = null
-    
+
     @Column
     var capacity: String? = null
-    
+
     @Column
     var currentLocation: String? = null
-    
+
     @Column
     var lastMaintenance: LocalDateTime? = null
-    
+
     @Column
     var nextMaintenance: LocalDateTime? = null
-    
+
     @Column(nullable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()
-    
+
     @Column(nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now()
 }
@@ -50,12 +49,12 @@ enum class VehicleType {
     MOTORCYCLE,
     BICYCLE,
     CARGO_PLANE,
-    SHIP
+    SHIP,
 }
 
 enum class VehicleStatus {
     AVAILABLE,
     IN_USE,
     MAINTENANCE,
-    OUT_OF_SERVICE
+    OUT_OF_SERVICE,
 }

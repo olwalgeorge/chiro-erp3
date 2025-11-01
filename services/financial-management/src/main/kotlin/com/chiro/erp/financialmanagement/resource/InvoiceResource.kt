@@ -15,7 +15,6 @@ import java.time.LocalDateTime
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class InvoiceResource {
-
     @Inject
     lateinit var invoiceRepository: InvoiceRepository
 
@@ -24,7 +23,9 @@ class InvoiceResource {
 
     @GET
     @Path("/{id}")
-    fun getInvoice(@PathParam("id") id: Long): Uni<Response> {
+    fun getInvoice(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return invoiceRepository.findById(id)
             .onItem().transform { invoice ->
                 if (invoice != null) {
@@ -37,7 +38,9 @@ class InvoiceResource {
 
     @GET
     @Path("/number/{invoiceNumber}")
-    fun getInvoiceByNumber(@PathParam("invoiceNumber") invoiceNumber: String): Uni<Response> {
+    fun getInvoiceByNumber(
+        @PathParam("invoiceNumber") invoiceNumber: String,
+    ): Uni<Response> {
         return invoiceRepository.findByInvoiceNumber(invoiceNumber)
             .onItem().transform { invoice ->
                 if (invoice != null) {
@@ -50,13 +53,15 @@ class InvoiceResource {
 
     @GET
     @Path("/customer/{customerId}")
-    fun getInvoicesByCustomer(@PathParam("customerId") customerId: String): Uni<List<Invoice>> =
-        invoiceRepository.findByCustomerId(customerId)
+    fun getInvoicesByCustomer(
+        @PathParam("customerId") customerId: String,
+    ): Uni<List<Invoice>> = invoiceRepository.findByCustomerId(customerId)
 
     @GET
     @Path("/status/{status}")
-    fun getInvoicesByStatus(@PathParam("status") status: InvoiceStatus): Uni<List<Invoice>> =
-        invoiceRepository.findByStatus(status)
+    fun getInvoicesByStatus(
+        @PathParam("status") status: InvoiceStatus,
+    ): Uni<List<Invoice>> = invoiceRepository.findByStatus(status)
 
     @GET
     @Path("/overdue")
@@ -74,7 +79,10 @@ class InvoiceResource {
     @PUT
     @Path("/{id}")
     @WithTransaction
-    fun updateInvoice(@PathParam("id") id: Long, invoice: Invoice): Uni<Response> {
+    fun updateInvoice(
+        @PathParam("id") id: Long,
+        invoice: Invoice,
+    ): Uni<Response> {
         return invoiceRepository.findById(id)
             .onItem().transformToUni { existingInvoice ->
                 if (existingInvoice != null) {
@@ -95,7 +103,9 @@ class InvoiceResource {
     @DELETE
     @Path("/{id}")
     @WithTransaction
-    fun deleteInvoice(@PathParam("id") id: Long): Uni<Response> {
+    fun deleteInvoice(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return invoiceRepository.deleteById(id)
             .onItem().transform { deleted ->
                 if (deleted) {
@@ -108,7 +118,9 @@ class InvoiceResource {
 
     @GET
     @Path("/search")
-    fun searchInvoices(@QueryParam("description") description: String?): Uni<List<Invoice>> {
+    fun searchInvoices(
+        @QueryParam("description") description: String?,
+    ): Uni<List<Invoice>> {
         return if (!description.isNullOrBlank()) {
             invoiceRepository.searchByDescription(description)
         } else {

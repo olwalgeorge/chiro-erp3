@@ -3,6 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.plugin.allopen" version "2.2.20" apply false
     id 'org.jetbrains.kotlin.plugin.serialization' version "2.2.20" apply false
     id 'io.quarkus' apply false
+    id "org.jlleitschuh.gradle.ktlint" version "12.1.0" apply false
 }
 
 allprojects {
@@ -20,6 +21,7 @@ subprojects {
     apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
     apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
     apply plugin: 'io.quarkus'
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
     
     java {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -55,6 +57,29 @@ subprojects {
     compileTestKotlin {
         kotlinOptions.jvmTarget = JavaVersion.VERSION_21
     }
+    
+    // ktlint configuration
+    ktlint {
+        version = "1.0.1"
+        debug = false
+        verbose = false
+        android = false
+        outputToConsole = true
+        outputColorName = "RED"
+        ignoreFailures = true
+        enableExperimentalRules = false
+        // Disable problematic rules for now - using correct rule names for ktlint 1.0+
+        disabledRules = [
+            "standard:filename", // Allow empty files (placeholder files)
+            "standard:no-wildcard-imports" // Allow wildcard imports temporarily
+        ]
+        
+        filter {
+            exclude("**/generated/**")
+            exclude("**/build/**")
+            exclude("**/Placeholder*.kt") // Exclude placeholder files
+        }
+    }
 }
 
 // Multi-module tasks
@@ -68,4 +93,17 @@ task cleanAllServices {
     dependsOn subprojects.collect { it.tasks.named('clean') }
     description = 'Clean all microservices'
     group = 'build'
+}
+
+// ktlint tasks for all services
+task ktlintCheckAll {
+    dependsOn subprojects.collect { it.tasks.named('ktlintCheck') }
+    description = 'Run ktlint check on all microservices'
+    group = 'verification'
+}
+
+task ktlintFormatAll {
+    dependsOn subprojects.collect { it.tasks.named('ktlintFormat') }
+    description = 'Run ktlint format on all microservices'
+    group = 'formatting'
 }

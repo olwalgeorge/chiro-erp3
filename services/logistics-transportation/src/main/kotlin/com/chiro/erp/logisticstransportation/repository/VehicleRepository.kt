@@ -9,24 +9,17 @@ import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class VehicleRepository : PanacheRepository<Vehicle> {
+    fun findByVehicleNumber(vehicleNumber: String): Uni<Vehicle?> = find("vehicleNumber", vehicleNumber).firstResult()
 
-    fun findByVehicleNumber(vehicleNumber: String): Uni<Vehicle?> =
-        find("vehicleNumber", vehicleNumber).firstResult()
+    fun findByLicensePlate(licensePlate: String): Uni<Vehicle?> = find("licensePlate", licensePlate).firstResult()
 
-    fun findByLicensePlate(licensePlate: String): Uni<Vehicle?> =
-        find("licensePlate", licensePlate).firstResult()
+    fun findByStatus(status: VehicleStatus): Uni<List<Vehicle>> = find("status", status).list()
 
-    fun findByStatus(status: VehicleStatus): Uni<List<Vehicle>> =
-        find("status", status).list()
+    fun findByType(type: VehicleType): Uni<List<Vehicle>> = find("type", type).list()
 
-    fun findByType(type: VehicleType): Uni<List<Vehicle>> =
-        find("type", type).list()
+    fun findByDriverId(driverId: String): Uni<List<Vehicle>> = find("driverId", driverId).list()
 
-    fun findByDriverId(driverId: String): Uni<List<Vehicle>> =
-        find("driverId", driverId).list()
-
-    fun findAvailableVehicles(): Uni<List<Vehicle>> =
-        find("status", VehicleStatus.AVAILABLE).list()
+    fun findAvailableVehicles(): Uni<List<Vehicle>> = find("status", VehicleStatus.AVAILABLE).list()
 
     fun findAvailableVehiclesByType(type: VehicleType): Uni<List<Vehicle>> =
         find("status = ?1 AND type = ?2", VehicleStatus.AVAILABLE, type).list()

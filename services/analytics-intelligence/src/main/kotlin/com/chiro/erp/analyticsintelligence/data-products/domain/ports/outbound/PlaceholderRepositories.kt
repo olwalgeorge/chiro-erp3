@@ -1,6 +1,6 @@
 package com.chiro.erp.analyticsintelligence.dataproducts.domain.ports.outbound
 
-// data-products Repositories (Outbound Ports) Placeholder  
+// data-products Repositories (Outbound Ports) Placeholder
 // This will contain the repository interfaces from service-analytics-data-products
 
 // TODO: Define repository interfaces for domain entities:

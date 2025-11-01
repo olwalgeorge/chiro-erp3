@@ -1,8 +1,8 @@
 package com.chiro.erp.operationsservice.resource
 
 import com.chiro.erp.operationsservice.entity.Task
-import com.chiro.erp.operationsservice.entity.TaskStatus
 import com.chiro.erp.operationsservice.entity.TaskPriority
+import com.chiro.erp.operationsservice.entity.TaskStatus
 import com.chiro.erp.operationsservice.repository.TaskRepository
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
 import io.smallrye.mutiny.Uni
@@ -16,7 +16,6 @@ import java.time.LocalDateTime
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class TaskResource {
-
     @Inject
     lateinit var taskRepository: TaskRepository
 
@@ -25,7 +24,9 @@ class TaskResource {
 
     @GET
     @Path("/{id}")
-    fun getTask(@PathParam("id") id: Long): Uni<Response> {
+    fun getTask(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return taskRepository.findById(id)
             .onItem().transform { task ->
                 if (task != null) {
@@ -38,23 +39,27 @@ class TaskResource {
 
     @GET
     @Path("/status/{status}")
-    fun getTasksByStatus(@PathParam("status") status: TaskStatus): Uni<List<Task>> =
-        taskRepository.findByStatus(status)
+    fun getTasksByStatus(
+        @PathParam("status") status: TaskStatus,
+    ): Uni<List<Task>> = taskRepository.findByStatus(status)
 
     @GET
     @Path("/priority/{priority}")
-    fun getTasksByPriority(@PathParam("priority") priority: TaskPriority): Uni<List<Task>> =
-        taskRepository.findByPriority(priority)
+    fun getTasksByPriority(
+        @PathParam("priority") priority: TaskPriority,
+    ): Uni<List<Task>> = taskRepository.findByPriority(priority)
 
     @GET
     @Path("/assignee/{assigneeId}")
-    fun getTasksByAssignee(@PathParam("assigneeId") assigneeId: String): Uni<List<Task>> =
-        taskRepository.findByAssigneeId(assigneeId)
+    fun getTasksByAssignee(
+        @PathParam("assigneeId") assigneeId: String,
+    ): Uni<List<Task>> = taskRepository.findByAssigneeId(assigneeId)
 
     @GET
     @Path("/workflow/{workflowId}")
-    fun getTasksByWorkflow(@PathParam("workflowId") workflowId: Long): Uni<List<Task>> =
-        taskRepository.findByWorkflowId(workflowId)
+    fun getTasksByWorkflow(
+        @PathParam("workflowId") workflowId: Long,
+    ): Uni<List<Task>> = taskRepository.findByWorkflowId(workflowId)
 
     @GET
     @Path("/active")
@@ -76,7 +81,10 @@ class TaskResource {
     @PUT
     @Path("/{id}")
     @WithTransaction
-    fun updateTask(@PathParam("id") id: Long, task: Task): Uni<Response> {
+    fun updateTask(
+        @PathParam("id") id: Long,
+        task: Task,
+    ): Uni<Response> {
         return taskRepository.findById(id)
             .onItem().transformToUni { existingTask ->
                 if (existingTask != null) {
@@ -89,7 +97,7 @@ class TaskResource {
                     existingTask.actualHours = task.actualHours
                     existingTask.dueDate = task.dueDate
                     existingTask.updatedAt = LocalDateTime.now()
-                    
+
                     // Update start/end dates based on status
                     if (task.status == TaskStatus.IN_PROGRESS && existingTask.startDate == null) {
                         existingTask.startDate = LocalDateTime.now()
@@ -97,7 +105,7 @@ class TaskResource {
                     if (task.status == TaskStatus.DONE && existingTask.endDate == null) {
                         existingTask.endDate = LocalDateTime.now()
                     }
-                    
+
                     taskRepository.persist(existingTask)
                         .onItem().transform { Response.ok(it).build() }
                 } else {
@@ -109,7 +117,9 @@ class TaskResource {
     @DELETE
     @Path("/{id}")
     @WithTransaction
-    fun deleteTask(@PathParam("id") id: Long): Uni<Response> {
+    fun deleteTask(
+        @PathParam("id") id: Long,
+    ): Uni<Response> {
         return taskRepository.deleteById(id)
             .onItem().transform { deleted ->
                 if (deleted) {
@@ -122,7 +132,9 @@ class TaskResource {
 
     @GET
     @Path("/search")
-    fun searchTasks(@QueryParam("title") title: String?): Uni<List<Task>> {
+    fun searchTasks(
+        @QueryParam("title") title: String?,
+    ): Uni<List<Task>> {
         return if (!title.isNullOrBlank()) {
             taskRepository.searchByTitle(title)
         } else {
