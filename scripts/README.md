@@ -85,21 +85,42 @@ Starts all microservices using docker-compose.
 .\scripts\start-microservices.ps1
 ```
 
+#### `migrate-to-single-database.ps1` ✨ NEW
+
+Interactive migration script to restructure from multiple databases to a single database with schemas.
+
+**Usage:**
+
+```powershell
+.\scripts\migrate-to-single-database.ps1
+```
+
+**Options:**
+
+1. Fresh Start - Clean migration without data
+2. Backup Current Data - Backup before migration
+3. View Schema Status - Check current state
+4. Cancel
+
+See `docs/SINGLE-DATABASE-MIGRATION.md` for details.
+
 ### SQL Scripts
 
 #### `init-databases.sql`
 
-Initializes all PostgreSQL databases for the 8 microservices.
-Creates users, databases, and grants permissions.
+**Updated:** Initializes a single PostgreSQL database (`chiro_erp`) with 8 schemas for microservices.
+Creates users, schemas, and grants permissions.
 
-**Databases:**
+**Schemas:**
 
--   core_db
--   analytics_db
--   commerce_db
--   crm_db
--   finance_db
--   logistics_db
+-   core_schema
+-   analytics_schema
+-   commerce_schema
+-   crm_schema
+-   finance_schema
+-   logistics_schema
+-   operations_schema
+-   supply_schema
 -   operations_db
 -   supply_db
 

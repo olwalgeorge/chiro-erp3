@@ -2,41 +2,49 @@
 
 ## Current Architecture
 
-### Database-per-Service Pattern
+### Single Database with Schema Separation
 
-Each microservice has its own isolated database to ensure:
+**Updated:** November 2, 2025 - Migrated from database-per-service to schema-based separation
 
--   **Data Autonomy**: Services own their data
--   **Loose Coupling**: No direct database dependencies between services
--   **Independent Deployment**: Schema changes don't affect other services
--   **Technology Choice**: Each service can use the optimal database technology
+This architecture uses **one PostgreSQL database** with **separate schemas** for each service to ensure:
+
+-   **Data Autonomy**: Services own their schema and data
+-   **Logical Isolation**: Schemas provide namespace separation
+-   **Resource Efficiency**: Single database instance reduces overhead
+-   **Access Control**: Schema-level permissions maintain security
+-   **Simplified Operations**: Easier backups, monitoring, and management
 
 ### Database Configuration
 
-#### Single PostgreSQL Instance
-
-All databases run on one PostgreSQL 15 instance for development:
+#### Single PostgreSQL Instance with Multiple Schemas
 
 ```yaml
 postgresql:
     host: localhost
     port: 5432
-    instances: 8 databases
+    database: chiro_erp (single database)
+    schemas: 8 service schemas
     total_storage: Shared volume
 ```
 
-#### Service Databases
+#### Service Schemas
 
-| Service                    | Database      | Schema Owner    | Purpose                                             |
-| -------------------------- | ------------- | --------------- | --------------------------------------------------- |
-| core-platform              | core_db       | core_user       | Authentication, authorization, audit, notifications |
-| analytics-intelligence     | analytics_db  | analytics_user  | Analytics, ML models, reporting data                |
-| commerce                   | commerce_db   | commerce_user   | Products, orders, payments, catalog                 |
-| customer-relationship      | crm_db        | crm_user        | Customers, leads, opportunities, support            |
-| financial-management       | finance_db    | finance_user    | GL, AP, AR, assets, tax, expenses                   |
-| logistics-transportation   | logistics_db  | logistics_user  | Fleet, TMS, WMS data                                |
-| operations-service         | operations_db | operations_user | Field service, scheduling, repairs                  |
-| supply-chain-manufacturing | supply_db     | supply_user     | Inventory, production, procurement                  |
+| Service                    | Schema            | Schema Owner    | Purpose                                             |
+| -------------------------- | ----------------- | --------------- | --------------------------------------------------- |
+| core-platform              | core_schema       | core_user       | Authentication, authorization, audit, notifications |
+| analytics-intelligence     | analytics_schema  | analytics_user  | Analytics, ML models, reporting data                |
+| commerce                   | commerce_schema   | commerce_user   | Products, orders, payments, catalog                 |
+| customer-relationship      | crm_schema        | crm_user        | Customers, leads, opportunities, support            |
+| financial-management       | finance_schema    | finance_user    | GL, AP, AR, assets, tax, expenses                   |
+| logistics-transportation   | logistics_schema  | logistics_user  | Fleet, TMS, WMS data                                |
+| operations-service         | operations_schema | operations_user | Field service, scheduling, repairs                  |
+| supply-chain-manufacturing | supply_schema     | supply_user     | Inventory, production, procurement                  |
+
+**Connection String Format:**
+
+```
+postgresql://localhost:5432/chiro_erp?currentSchema=<schema_name>
+```
 
 ## Cross-Service Data Access Patterns
 
