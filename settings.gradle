@@ -12,11 +12,9 @@ rootProject.name='chiro-erp'
 
 // Service modules
 include 'services:administration'
-include 'services:analytics-intelligence'
 include 'services:commerce'
 include 'services:core-platform'
 include 'services:customer-relationship'
 include 'services:financial-management'
-include 'services:logistics-transportation'
 include 'services:operations-service'
 include 'services:supply-chain-manufacturing'
