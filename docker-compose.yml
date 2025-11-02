@@ -149,61 +149,30 @@ services:
           memory: 512M
     restart: unless-stopped
 
-  # ERP Microservices
+  # ERP Microservices - Consolidated Architecture (7 Services)
+
+  # 1. Core Platform Service (Port 8081)
+  # Domains: security, organization, audit, configuration, notification, integration
   core-platform:
     build:
       context: ./services/core-platform
       dockerfile: src/main/docker/Dockerfile.jvm
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
+      QUARKUS_HTTP_PORT: 8081
       DB_USERNAME: core_user
       DB_PASSWORD: core_pass
-      DB_URL: postgresql://postgresql:5432/core_db
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=core_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
-      KEYCLOAK_SERVER_URL: http://keycloak:8080
+      OIDC_CLIENT_SECRET: core-platform-secret
     depends_on:
       - postgresql
       - redis
       - kafka
       - keycloak
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health/ready"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    networks:
-      - chiro-erp-network
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-    restart: unless-stopped
-
-  analytics-intelligence:
-    build:
-      context: ./services/analytics-intelligence
-      dockerfile: src/main/docker/Dockerfile.jvm
-    ports:
-      - "8081:8081"
-    environment:
-      DB_USERNAME: analytics_user
-      DB_PASSWORD: analytics_pass
-      DB_URL: postgresql://postgresql:5432/analytics_db
-      REDIS_URL: redis://redis:6379
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      - postgresql
-      - redis
-      - kafka
-      - core-platform
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/q/health/ready"]
       interval: 30s
@@ -222,27 +191,27 @@ services:
           memory: 512M
     restart: unless-stopped
 
-  commerce:
+  # 2. Administration Service (Port 8082)
+  # Domains: hr, logistics-transportation, analytics-intelligence, project-management
+  administration:
     build:
-      context: ./services/commerce
+      context: ./services/administration
       dockerfile: src/main/docker/Dockerfile.jvm
     ports:
       - "8082:8082"
     environment:
-      DB_USERNAME: commerce_user
-      DB_PASSWORD: commerce_pass
-      DB_URL: postgresql://postgresql:5432/commerce_db
+      QUARKUS_HTTP_PORT: 8082
+      DB_USERNAME: administration_user
+      DB_PASSWORD: administration_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=administration_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      S3_ENDPOINT: http://minio:9000
-      AWS_ACCESS_KEY: minioadmin
-      AWS_SECRET_KEY: minioadmin
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: administration-secret
     depends_on:
       - postgresql
       - redis
       - kafka
-      - minio
       - core-platform
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8082/q/health/ready"]
@@ -262,6 +231,8 @@ services:
           memory: 512M
     restart: unless-stopped
 
+  # 3. Customer Relationship Service (Port 8083)
+  # Domains: crm, client, provider, subscription, promotion
   customer-relationship:
     build:
       context: ./services/customer-relationship
@@ -269,15 +240,17 @@ services:
     ports:
       - "8083:8083"
     environment:
-      DB_USERNAME: crm_user
-      DB_PASSWORD: crm_pass
-      DB_URL: postgresql://postgresql:5432/crm_db
+      QUARKUS_HTTP_PORT: 8083
+      DB_USERNAME: customerrelationship_user
+      DB_PASSWORD: customerrelationship_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=customerrelationship_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: customer-relationship-secret
     depends_on:
       - postgresql
       - redis
@@ -302,60 +275,31 @@ services:
           memory: 512M
     restart: unless-stopped
 
-  administration:
+  # 4. Operations Service (Port 8084)
+  # Domains: field-service, scheduling, records, repair-rma
+  operations-service:
     build:
-      context: ./services/administration
-      dockerfile: src/main/docker/Dockerfile.jvm
-    ports:
-      - "8088:8088"
-    environment:
-      DB_USERNAME: admin_user
-      DB_PASSWORD: admin_pass
-      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=administration_schema
-      REDIS_URL: redis://redis:6379
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
-      OIDC_CLIENT_SECRET: admin-secret
-    depends_on:
-      - postgresql
-      - redis
-      - kafka
-      - core-platform
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8088/q/health/ready"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    networks:
-      - chiro-erp-network
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-    restart: unless-stopped
-
-  financial-management:
-    build:
-      context: ./services/financial-management
+      context: ./services/operations-service
       dockerfile: src/main/docker/Dockerfile.jvm
     ports:
       - "8084:8084"
     environment:
-      DB_USERNAME: finance_user
-      DB_PASSWORD: finance_pass
-      DB_URL: postgresql://postgresql:5432/finance_db
+      QUARKUS_HTTP_PORT: 8084
+      DB_USERNAME: operationsservice_user
+      DB_PASSWORD: operationsservice_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=operationsservice_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      S3_ENDPOINT: http://minio:9000
+      AWS_ACCESS_KEY: minioadmin
+      AWS_SECRET_KEY: minioadmin
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: operations-service-secret
     depends_on:
       - postgresql
       - redis
       - kafka
+      - minio
       - core-platform
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8084/q/health/ready"]
@@ -375,22 +319,31 @@ services:
           memory: 512M
     restart: unless-stopped
 
-  logistics-transportation:
+  # 5. Commerce Service (Port 8085)
+  # Domains: ecommerce, portal, communication, pos
+  commerce:
     build:
-      context: ./services/logistics-transportation
+      context: ./services/commerce
       dockerfile: src/main/docker/Dockerfile.jvm
     ports:
       - "8085:8085"
     environment:
-      DB_USERNAME: logistics_user
-      DB_PASSWORD: logistics_pass
-      DB_URL: postgresql://postgresql:5432/logistics_db
+      QUARKUS_HTTP_PORT: 8085
+      DB_USERNAME: commerce_user
+      DB_PASSWORD: commerce_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=commerce_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      S3_ENDPOINT: http://minio:9000
+      AWS_ACCESS_KEY: minioadmin
+      AWS_SECRET_KEY: minioadmin
+      OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: commerce-secret
     depends_on:
       - postgresql
       - redis
       - kafka
+      - minio
       - core-platform
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8085/q/health/ready"]
@@ -410,27 +363,27 @@ services:
           memory: 512M
     restart: unless-stopped
 
-  operations-service:
+  # 6. Financial Management Service (Port 8086)
+  # Domains: general-ledger, accounts-payable, accounts-receivable, asset-accounting, tax-engine, expense-management
+  financial-management:
     build:
-      context: ./services/operations-service
+      context: ./services/financial-management
       dockerfile: src/main/docker/Dockerfile.jvm
     ports:
       - "8086:8086"
     environment:
-      DB_USERNAME: operations_user
-      DB_PASSWORD: operations_pass
-      DB_URL: postgresql://postgresql:5432/operations_db
+      QUARKUS_HTTP_PORT: 8086
+      DB_USERNAME: financialmanagement_user
+      DB_PASSWORD: financialmanagement_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=financialmanagement_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      S3_ENDPOINT: http://minio:9000
-      AWS_ACCESS_KEY: minioadmin
-      AWS_SECRET_KEY: minioadmin
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: financial-management-secret
     depends_on:
       - postgresql
       - redis
       - kafka
-      - minio
       - core-platform
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8086/q/health/ready"]
@@ -450,6 +403,8 @@ services:
           memory: 512M
     restart: unless-stopped
 
+  # 7. Supply Chain Manufacturing Service (Port 8087)
+  # Domains: production, quality, inventory, product-costing, procurement
   supply-chain-manufacturing:
     build:
       context: ./services/supply-chain-manufacturing
@@ -457,15 +412,17 @@ services:
     ports:
       - "8087:8087"
     environment:
-      DB_USERNAME: supply_user
-      DB_PASSWORD: supply_pass
-      DB_URL: postgresql://postgresql:5432/supply_db
+      QUARKUS_HTTP_PORT: 8087
+      DB_USERNAME: supplychainmanufacturing_user
+      DB_PASSWORD: supplychainmanufacturing_pass
+      DB_URL: postgresql://postgresql:5432/chiro_erp?currentSchema=supplychainmanufacturing_schema
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       S3_ENDPOINT: http://minio:9000
       AWS_ACCESS_KEY: minioadmin
       AWS_SECRET_KEY: minioadmin
       OIDC_SERVER_URL: http://keycloak:8180/realms/chiro-erp
+      OIDC_CLIENT_SECRET: supply-chain-manufacturing-secret
     depends_on:
       - postgresql
       - redis

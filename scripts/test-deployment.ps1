@@ -183,13 +183,12 @@ Write-Host ""
 Write-Host "[Test 5/6] Testing Health Check Endpoints..." -ForegroundColor Yellow
 
 $microservices = @(
-    @{Name = "core-platform"; Port = 8080 }
-    @{Name = "analytics-intelligence"; Port = 8081 }
-    @{Name = "commerce"; Port = 8082 }
+    @{Name = "core-platform"; Port = 8081 }
+    @{Name = "administration"; Port = 8082 }
     @{Name = "customer-relationship"; Port = 8083 }
-    @{Name = "financial-management"; Port = 8084 }
-    @{Name = "logistics-transportation"; Port = 8085 }
-    @{Name = "operations-service"; Port = 8086 }
+    @{Name = "operations-service"; Port = 8084 }
+    @{Name = "commerce"; Port = 8085 }
+    @{Name = "financial-management"; Port = 8086 }
     @{Name = "supply-chain-manufacturing"; Port = 8087 }
 )
 

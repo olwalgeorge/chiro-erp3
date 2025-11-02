@@ -6,74 +6,80 @@
 -- Keycloak still needs its own database
 CREATE DATABASE keycloak;
 
--- Create users for each service
+-- Create users for each consolidated service
 CREATE USER core_user WITH PASSWORD 'core_pass';
-CREATE USER analytics_user WITH PASSWORD 'analytics_pass';
+CREATE USER administration_user WITH PASSWORD 'administration_pass';
+CREATE USER customerrelationship_user WITH PASSWORD 'customerrelationship_pass';
+CREATE USER operationsservice_user WITH PASSWORD 'operationsservice_pass';
 CREATE USER commerce_user WITH PASSWORD 'commerce_pass';
-CREATE USER crm_user WITH PASSWORD 'crm_pass';
-CREATE USER finance_user WITH PASSWORD 'finance_pass';
-CREATE USER logistics_user WITH PASSWORD 'logistics_pass';
-CREATE USER operations_user WITH PASSWORD 'operations_pass';
-CREATE USER supply_user WITH PASSWORD 'supply_pass';
+CREATE USER financialmanagement_user WITH PASSWORD 'financialmanagement_pass';
+CREATE USER supplychainmanufacturing_user WITH PASSWORD 'supplychainmanufacturing_pass';
 
 -- Grant connection to main database for all users
 GRANT CONNECT ON DATABASE chiro_erp TO core_user;
-GRANT CONNECT ON DATABASE chiro_erp TO analytics_user;
+GRANT CONNECT ON DATABASE chiro_erp TO administration_user;
+GRANT CONNECT ON DATABASE chiro_erp TO customerrelationship_user;
+GRANT CONNECT ON DATABASE chiro_erp TO operationsservice_user;
 GRANT CONNECT ON DATABASE chiro_erp TO commerce_user;
-GRANT CONNECT ON DATABASE chiro_erp TO crm_user;
-GRANT CONNECT ON DATABASE chiro_erp TO finance_user;
-GRANT CONNECT ON DATABASE chiro_erp TO logistics_user;
-GRANT CONNECT ON DATABASE chiro_erp TO operations_user;
-GRANT CONNECT ON DATABASE chiro_erp TO supply_user;
+GRANT CONNECT ON DATABASE chiro_erp TO financialmanagement_user;
+GRANT CONNECT ON DATABASE chiro_erp TO supplychainmanufacturing_user;
 
--- Create schemas for each service (must run after connecting to chiro_erp)
+-- Create schemas for each consolidated service (must run after connecting to chiro_erp)
 \c chiro_erp
 
+-- Core Platform: security, organization, audit, configuration, notification, integration
 CREATE SCHEMA IF NOT EXISTS core_schema AUTHORIZATION core_user;
-CREATE SCHEMA IF NOT EXISTS analytics_schema AUTHORIZATION analytics_user;
+
+-- Administration: hr, logistics-transportation, analytics-intelligence, project-management
+CREATE SCHEMA IF NOT EXISTS administration_schema AUTHORIZATION administration_user;
+
+-- Customer Relationship: crm, client, provider, subscription, promotion
+CREATE SCHEMA IF NOT EXISTS customerrelationship_schema AUTHORIZATION customerrelationship_user;
+
+-- Operations Service: field-service, scheduling, records, repair-rma
+CREATE SCHEMA IF NOT EXISTS operationsservice_schema AUTHORIZATION operationsservice_user;
+
+-- Commerce: ecommerce, portal, communication, pos
 CREATE SCHEMA IF NOT EXISTS commerce_schema AUTHORIZATION commerce_user;
-CREATE SCHEMA IF NOT EXISTS crm_schema AUTHORIZATION crm_user;
-CREATE SCHEMA IF NOT EXISTS finance_schema AUTHORIZATION finance_user;
-CREATE SCHEMA IF NOT EXISTS logistics_schema AUTHORIZATION logistics_user;
-CREATE SCHEMA IF NOT EXISTS operations_schema AUTHORIZATION operations_user;
-CREATE SCHEMA IF NOT EXISTS supply_schema AUTHORIZATION supply_user;
+
+-- Financial Management: general-ledger, accounts-payable, accounts-receivable, asset-accounting, tax-engine, expense-management
+CREATE SCHEMA IF NOT EXISTS financialmanagement_schema AUTHORIZATION financialmanagement_user;
+
+-- Supply Chain Manufacturing: production, quality, inventory, product-costing, procurement
+CREATE SCHEMA IF NOT EXISTS supplychainmanufacturing_schema AUTHORIZATION supplychainmanufacturing_user;
 
 -- Grant full privileges on schemas
 GRANT ALL PRIVILEGES ON SCHEMA core_schema TO core_user;
-GRANT ALL PRIVILEGES ON SCHEMA analytics_schema TO analytics_user;
+GRANT ALL PRIVILEGES ON SCHEMA administration_schema TO administration_user;
+GRANT ALL PRIVILEGES ON SCHEMA customerrelationship_schema TO customerrelationship_user;
+GRANT ALL PRIVILEGES ON SCHEMA operationsservice_schema TO operationsservice_user;
 GRANT ALL PRIVILEGES ON SCHEMA commerce_schema TO commerce_user;
-GRANT ALL PRIVILEGES ON SCHEMA crm_schema TO crm_user;
-GRANT ALL PRIVILEGES ON SCHEMA finance_schema TO finance_user;
-GRANT ALL PRIVILEGES ON SCHEMA logistics_schema TO logistics_user;
-GRANT ALL PRIVILEGES ON SCHEMA operations_schema TO operations_user;
-GRANT ALL PRIVILEGES ON SCHEMA supply_schema TO supply_user;
+GRANT ALL PRIVILEGES ON SCHEMA financialmanagement_schema TO financialmanagement_user;
+GRANT ALL PRIVILEGES ON SCHEMA supplychainmanufacturing_schema TO supplychainmanufacturing_user;
 
 -- Grant usage and create on schemas
 GRANT USAGE ON SCHEMA core_schema TO core_user;
-GRANT USAGE ON SCHEMA analytics_schema TO analytics_user;
+GRANT USAGE ON SCHEMA administration_schema TO administration_user;
+GRANT USAGE ON SCHEMA customerrelationship_schema TO customerrelationship_user;
+GRANT USAGE ON SCHEMA operationsservice_schema TO operationsservice_user;
 GRANT USAGE ON SCHEMA commerce_schema TO commerce_user;
-GRANT USAGE ON SCHEMA crm_schema TO crm_user;
-GRANT USAGE ON SCHEMA finance_schema TO finance_user;
-GRANT USAGE ON SCHEMA logistics_schema TO logistics_user;
-GRANT USAGE ON SCHEMA operations_schema TO operations_user;
-GRANT USAGE ON SCHEMA supply_schema TO supply_user;
+GRANT USAGE ON SCHEMA financialmanagement_schema TO financialmanagement_user;
+GRANT USAGE ON SCHEMA supplychainmanufacturing_schema TO supplychainmanufacturing_user;
 
 -- Set default privileges for future tables
 ALTER DEFAULT PRIVILEGES IN SCHEMA core_schema GRANT ALL ON TABLES TO core_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA analytics_schema GRANT ALL ON TABLES TO analytics_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA administration_schema GRANT ALL ON TABLES TO administration_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA customerrelationship_schema GRANT ALL ON TABLES TO customerrelationship_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA operationsservice_schema GRANT ALL ON TABLES TO operationsservice_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA commerce_schema GRANT ALL ON TABLES TO commerce_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA crm_schema GRANT ALL ON TABLES TO crm_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA finance_schema GRANT ALL ON TABLES TO finance_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA logistics_schema GRANT ALL ON TABLES TO logistics_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA operations_schema GRANT ALL ON TABLES TO operations_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA supply_schema GRANT ALL ON TABLES TO supply_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA financialmanagement_schema GRANT ALL ON TABLES TO financialmanagement_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA supplychainmanufacturing_schema GRANT ALL ON TABLES TO supplychainmanufacturing_user;
 
 -- Set default privileges for sequences
 ALTER DEFAULT PRIVILEGES IN SCHEMA core_schema GRANT ALL ON SEQUENCES TO core_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA analytics_schema GRANT ALL ON SEQUENCES TO analytics_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA administration_schema GRANT ALL ON SEQUENCES TO administration_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA customerrelationship_schema GRANT ALL ON SEQUENCES TO customerrelationship_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA operationsservice_schema GRANT ALL ON SEQUENCES TO operationsservice_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA commerce_schema GRANT ALL ON SEQUENCES TO commerce_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA crm_schema GRANT ALL ON SEQUENCES TO crm_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA finance_schema GRANT ALL ON SEQUENCES TO finance_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA logistics_schema GRANT ALL ON SEQUENCES TO logistics_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA operations_schema GRANT ALL ON SEQUENCES TO operations_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA supply_schema GRANT ALL ON SEQUENCES TO supply_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA financialmanagement_schema GRANT ALL ON SEQUENCES TO financialmanagement_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA supplychainmanufacturing_schema GRANT ALL ON SEQUENCES TO supplychainmanufacturing_user;

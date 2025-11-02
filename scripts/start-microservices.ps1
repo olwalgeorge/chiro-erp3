@@ -35,9 +35,9 @@ docker-compose up -d core-platform
 Write-Host "Waiting for core platform to be ready..." -ForegroundColor Yellow
 Start-Sleep -Seconds 20
 
-# Start remaining microservices
+# Start remaining consolidated microservices
 Write-Host "Starting remaining microservices..." -ForegroundColor Yellow
-docker-compose up -d analytics-intelligence commerce customer-relationship financial-management logistics-transportation operations-service supply-chain-manufacturing
+docker-compose up -d administration customer-relationship operations-service commerce financial-management supply-chain-manufacturing
 
 # Start monitoring services
 Write-Host "Starting monitoring services..." -ForegroundColor Yellow
@@ -45,15 +45,14 @@ docker-compose up -d prometheus grafana
 
 Write-Host "All services started successfully!" -ForegroundColor Green
 Write-Host ""
-Write-Host "Service URLs:" -ForegroundColor Cyan
-Write-Host "  Core Platform:          http://localhost:8080" -ForegroundColor White
-Write-Host "  Analytics Intelligence: http://localhost:8081" -ForegroundColor White
-Write-Host "  Commerce:              http://localhost:8082" -ForegroundColor White
-Write-Host "  Customer Relationship: http://localhost:8083" -ForegroundColor White
-Write-Host "  Financial Management:  http://localhost:8084" -ForegroundColor White
-Write-Host "  Logistics Transport:   http://localhost:8085" -ForegroundColor White
-Write-Host "  Operations Service:    http://localhost:8086" -ForegroundColor White
-Write-Host "  Supply Chain Mfg:      http://localhost:8087" -ForegroundColor White
+Write-Host "Consolidated Service URLs:" -ForegroundColor Cyan
+Write-Host "  Core Platform (6 domains):              http://localhost:8081" -ForegroundColor White
+Write-Host "  Administration (4 domains):             http://localhost:8082" -ForegroundColor White
+Write-Host "  Customer Relationship (5 domains):      http://localhost:8083" -ForegroundColor White
+Write-Host "  Operations Service (4 domains):         http://localhost:8084" -ForegroundColor White
+Write-Host "  Commerce (4 domains):                   http://localhost:8085" -ForegroundColor White
+Write-Host "  Financial Management (6 domains):       http://localhost:8086" -ForegroundColor White
+Write-Host "  Supply Chain Manufacturing (5 domains): http://localhost:8087" -ForegroundColor White
 Write-Host ""
 Write-Host "Infrastructure URLs:" -ForegroundColor Cyan
 Write-Host "  Keycloak Admin:        http://localhost:8080/admin (admin/admin)" -ForegroundColor White

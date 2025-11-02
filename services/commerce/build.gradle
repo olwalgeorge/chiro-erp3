@@ -11,6 +11,9 @@ repositories {
 }
 
 dependencies {
+    // Health check extensions
+    implementation 'io.quarkus:quarkus-redis-client'
+    implementation 'io.quarkus:quarkus-smallrye-reactive-messaging-kafka'
     // Core Quarkus dependencies only
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'

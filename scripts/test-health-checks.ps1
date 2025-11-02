@@ -5,14 +5,13 @@ Write-Host "`n=== ChiroERP Health Check Validator ===" -ForegroundColor Cyan
 Write-Host "Testing health endpoints for all microservices...`n" -ForegroundColor White
 
 $services = @(
-    @{ Name = "Core Platform"; Port = 8080; Service = "core-platform" },
-    @{ Name = "Analytics Intelligence"; Port = 8081; Service = "analytics-intelligence" },
-    @{ Name = "Commerce"; Port = 8082; Service = "commerce" },
-    @{ Name = "Customer Relationship"; Port = 8083; Service = "customer-relationship" },
-    @{ Name = "Financial Management"; Port = 8084; Service = "financial-management" },
-    @{ Name = "Logistics Transportation"; Port = 8085; Service = "logistics-transportation" },
-    @{ Name = "Operations Service"; Port = 8086; Service = "operations-service" },
-    @{ Name = "Supply Chain Manufacturing"; Port = 8087; Service = "supply-chain-manufacturing" }
+    @{ Name = "Core Platform"; Port = 8081; Service = "core-platform"; Domains = "security, organization, audit, configuration, notification, integration" },
+    @{ Name = "Administration"; Port = 8082; Service = "administration"; Domains = "hr, logistics-transportation, analytics-intelligence, project-management" },
+    @{ Name = "Customer Relationship"; Port = 8083; Service = "customer-relationship"; Domains = "crm, client, provider, subscription, promotion" },
+    @{ Name = "Operations Service"; Port = 8084; Service = "operations-service"; Domains = "field-service, scheduling, records, repair-rma" },
+    @{ Name = "Commerce"; Port = 8085; Service = "commerce"; Domains = "ecommerce, portal, communication, pos" },
+    @{ Name = "Financial Management"; Port = 8086; Service = "financial-management"; Domains = "general-ledger, accounts-payable, accounts-receivable, asset-accounting, tax-engine, expense-management" },
+    @{ Name = "Supply Chain Manufacturing"; Port = 8087; Service = "supply-chain-manufacturing"; Domains = "production, quality, inventory, product-costing, procurement" }
 )
 
 $results = @{
