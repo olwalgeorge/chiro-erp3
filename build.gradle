@@ -33,6 +33,14 @@ subprojects {
         implementation 'io.quarkus:quarkus-kotlin'
         implementation 'io.quarkus:quarkus-arc'
 
+        // Common dependencies for all microservices
+        implementation 'io.quarkus:quarkus-rest'
+        implementation 'io.quarkus:quarkus-rest-jackson'
+        implementation 'io.quarkus:quarkus-smallrye-health'
+
+        // Kafka Messaging
+        implementation 'io.quarkus:quarkus-messaging-kafka'
+
         testImplementation 'io.quarkus:quarkus-junit5'
         testImplementation 'io.rest-assured:rest-assured'
     }

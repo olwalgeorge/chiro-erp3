@@ -7,21 +7,11 @@ plugins {
 }
 
 dependencies {
-    // Quarkus BOM is imported from root build.gradle
-    // Core Quarkus dependencies
-    implementation 'io.quarkus:quarkus-rest'
-    implementation 'io.quarkus:quarkus-rest-jackson'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    // Common dependencies (REST, Jackson, Health, Kafka) inherited from root build.gradle
 
-    // Essential extensions
-    implementation 'io.quarkus:quarkus-smallrye-health'
-
-    // Database dependencies (only active in prod)
+    // Service-specific dependencies
     implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'io.quarkus:quarkus-reactive-pg-client'
-
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
 }
 
 group = 'chiro.erp.financialmanagement'
