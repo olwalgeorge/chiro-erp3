@@ -1,0 +1,234 @@
+###############################################################################
+# Health Check Tests - All Microservices
+# Standardized health checks across all 7 services
+###############################################################################
+
+# Service Base URLs
+@administration = http://localhost:8082
+@corePlatform = http://localhost:8081
+@customerRelationship = http://localhost:8083
+@operations = http://localhost:8084
+@commerce = http://localhost:8085
+@financial = http://localhost:8086
+@supplyChain = http://localhost:8087
+
+###############################################################################
+# ADMINISTRATION SERVICE - Health Checks
+###############################################################################
+
+### Administration - Overall Health
+GET {{administration}}/q/health
+Accept: application/json
+
+###
+
+### Administration - Liveness Probe
+GET {{administration}}/q/health/live
+Accept: application/json
+
+###
+
+### Administration - Readiness Probe
+GET {{administration}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# CORE PLATFORM SERVICE - Health Checks
+###############################################################################
+
+### Core Platform - Overall Health
+GET {{corePlatform}}/q/health
+Accept: application/json
+
+###
+
+### Core Platform - Liveness Probe
+GET {{corePlatform}}/q/health/live
+Accept: application/json
+
+###
+
+### Core Platform - Readiness Probe
+GET {{corePlatform}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# CUSTOMER RELATIONSHIP SERVICE - Health Checks
+###############################################################################
+
+### Customer Relationship - Overall Health
+GET {{customerRelationship}}/q/health
+Accept: application/json
+
+###
+
+### Customer Relationship - Liveness Probe
+GET {{customerRelationship}}/q/health/live
+Accept: application/json
+
+###
+
+### Customer Relationship - Readiness Probe
+GET {{customerRelationship}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# OPERATIONS SERVICE - Health Checks
+###############################################################################
+
+### Operations - Overall Health
+GET {{operations}}/q/health
+Accept: application/json
+
+###
+
+### Operations - Liveness Probe
+GET {{operations}}/q/health/live
+Accept: application/json
+
+###
+
+### Operations - Readiness Probe
+GET {{operations}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# COMMERCE SERVICE - Health Checks
+###############################################################################
+
+### Commerce - Overall Health
+GET {{commerce}}/q/health
+Accept: application/json
+
+###
+
+### Commerce - Liveness Probe
+GET {{commerce}}/q/health/live
+Accept: application/json
+
+###
+
+### Commerce - Readiness Probe
+GET {{commerce}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# FINANCIAL MANAGEMENT SERVICE - Health Checks
+###############################################################################
+
+### Financial - Overall Health
+GET {{financial}}/q/health
+Accept: application/json
+
+###
+
+### Financial - Liveness Probe
+GET {{financial}}/q/health/live
+Accept: application/json
+
+###
+
+### Financial - Readiness Probe
+GET {{financial}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# SUPPLY CHAIN SERVICE - Health Checks
+###############################################################################
+
+### Supply Chain - Overall Health
+GET {{supplyChain}}/q/health
+Accept: application/json
+
+###
+
+### Supply Chain - Liveness Probe
+GET {{supplyChain}}/q/health/live
+Accept: application/json
+
+###
+
+### Supply Chain - Readiness Probe
+GET {{supplyChain}}/q/health/ready
+Accept: application/json
+
+###############################################################################
+# BATCH HEALTH CHECK - All Services at Once
+###############################################################################
+
+### Batch - All Services Overall Health
+GET {{administration}}/q/health
+###
+GET {{corePlatform}}/q/health
+###
+GET {{customerRelationship}}/q/health
+###
+GET {{operations}}/q/health
+###
+GET {{commerce}}/q/health
+###
+GET {{financial}}/q/health
+###
+GET {{supplyChain}}/q/health
+
+###############################################################################
+# EXPECTED RESPONSES
+###############################################################################
+
+# Overall Health Response:
+# {
+#   "status": "UP",
+#   "checks": [
+#     {
+#       "name": "SmallRye Reactive Messaging - readiness check",
+#       "status": "UP"
+#     },
+#     {
+#       "name": "SmallRye Reactive Messaging - liveness check",
+#       "status": "UP"
+#     }
+#   ]
+# }
+
+# Liveness Response:
+# {
+#   "status": "UP",
+#   "checks": [
+#     {
+#       "name": "SmallRye Reactive Messaging - liveness check",
+#       "status": "UP"
+#     }
+#   ]
+# }
+
+# Readiness Response:
+# {
+#   "status": "UP",
+#   "checks": [
+#     {
+#       "name": "SmallRye Reactive Messaging - readiness check",
+#       "status": "UP"
+#     }
+#   ]
+# }
+
+###############################################################################
+# USAGE
+###############################################################################
+
+# START SERVICES:
+# Option 1 (Local Dev):
+#   .\scripts\test-kafka-endpoints.ps1
+#
+# Option 2 (Docker):
+#   docker-compose up -d
+#
+# TESTING:
+# 1. Install "REST Client" extension in VS Code
+# 2. Click "Send Request" above any ### line
+# 3. View response in right pane
+#
+# TROUBLESHOOTING:
+# - Connection Refused: Service not running
+# - 404: Check port number matches service configuration
+# - Timeout: Service may be starting up, wait 10 seconds

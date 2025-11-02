@@ -1,0 +1,326 @@
+###############################################################################
+# Kafka Messaging Tests - All Microservices
+# Standardized Kafka tests with consistent response formats
+###############################################################################
+
+# Service Base URLs
+@administration = http://localhost:8082
+@corePlatform = http://localhost:8081
+@customerRelationship = http://localhost:8083
+@operations = http://localhost:8084
+@commerce = http://localhost:8085
+@financial = http://localhost:8086
+@supplyChain = http://localhost:8087
+
+###############################################################################
+# SECTION 1: KAFKA CONNECTIVITY TESTS
+# Test that each service can connect to Kafka
+###############################################################################
+
+### Administration - Kafka Ping
+GET {{administration}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Core Platform - Kafka Ping
+GET {{corePlatform}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Customer Relationship - Kafka Ping
+GET {{customerRelationship}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Operations - Kafka Ping
+GET {{operations}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Commerce - Kafka Ping
+GET {{commerce}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Financial - Kafka Ping
+GET {{financial}}/api/test/kafka/ping
+Accept: application/json
+
+###
+
+### Supply Chain - Kafka Ping
+GET {{supplyChain}}/api/test/kafka/ping
+Accept: application/json
+
+###############################################################################
+# SECTION 2: BASIC MESSAGE SENDING
+# Simple message sending with query parameters
+###############################################################################
+
+### Administration - Send Simple Message
+GET {{administration}}/api/test/kafka/send?message=Test from Administration
+Accept: application/json
+
+###
+
+### Core Platform - Send Simple Message
+GET {{corePlatform}}/api/test/kafka/send?message=Test from Core Platform
+Accept: application/json
+
+###
+
+### Customer Relationship - Send Simple Message
+GET {{customerRelationship}}/api/test/kafka/send?message=Test from CRM
+Accept: application/json
+
+###
+
+### Operations - Send Simple Message
+GET {{operations}}/api/test/kafka/send?message=Test from Operations
+Accept: application/json
+
+###
+
+### Commerce - Send Simple Message
+GET {{commerce}}/api/test/kafka/send?message=Test from Commerce
+Accept: application/json
+
+###
+
+### Financial - Send Simple Message
+GET {{financial}}/api/test/kafka/send?message=Test from Financial
+Accept: application/json
+
+###
+
+### Supply Chain - Send Simple Message
+GET {{supplyChain}}/api/test/kafka/send?message=Test from Supply Chain
+Accept: application/json
+
+###############################################################################
+# SECTION 3: BUSINESS DOMAIN EVENTS
+# Service-specific business events with meaningful data
+###############################################################################
+
+### Administration - Employee Onboarded Event
+GET {{administration}}/api/test/kafka/send?message=EMPLOYEE_ONBOARDED:EMP001:John Doe:IT Department
+Accept: application/json
+
+###
+
+### Core Platform - User Created Event
+GET {{corePlatform}}/api/test/kafka/send?message=USER_CREATED:USR001:admin@example.com:ACTIVE
+Accept: application/json
+
+###
+
+### Customer Relationship - New Customer Event
+GET {{customerRelationship}}/api/test/kafka/send?message=CUSTOMER_CREATED:CUST001:Acme Corp:ACTIVE
+Accept: application/json
+
+###
+
+### Operations - Work Order Created Event
+GET {{operations}}/api/test/kafka/send?message=WORK_ORDER_CREATED:WO001:HIGH_PRIORITY:ASSIGNED
+Accept: application/json
+
+###
+
+### Commerce - Order Placed Event
+GET {{commerce}}/api/test/kafka/send?message=ORDER_PLACED:ORD001:CUST001:599.99:PENDING
+Accept: application/json
+
+###
+
+### Financial - Invoice Generated Event
+GET {{financial}}/api/test/kafka/send?message=INVOICE_GENERATED:INV001:ORD001:599.99:DUE
+Accept: application/json
+
+###
+
+### Supply Chain - Inventory Updated Event
+GET {{supplyChain}}/api/test/kafka/send?message=INVENTORY_UPDATED:PROD001:Warehouse A:250:STOCKED
+Accept: application/json
+
+###############################################################################
+# SECTION 4: JSON MESSAGE FORMAT
+# Structured JSON payloads (URL encoded)
+###############################################################################
+
+### Administration - JSON Employee Event
+GET {{administration}}/api/test/kafka/send?message={"eventType":"EMPLOYEE_ONBOARDED","employeeId":"EMP001","name":"John Doe","department":"IT","timestamp":"2025-11-02T10:30:00Z"}
+Accept: application/json
+
+###
+
+### Customer Relationship - JSON Customer Event
+GET {{customerRelationship}}/api/test/kafka/send?message={"eventType":"CUSTOMER_CREATED","customerId":"CUST001","name":"Acme Corp","status":"ACTIVE","timestamp":"2025-11-02T10:30:00Z"}
+Accept: application/json
+
+###
+
+### Commerce - JSON Order Event
+GET {{commerce}}/api/test/kafka/send?message={"eventType":"ORDER_PLACED","orderId":"ORD001","customerId":"CUST001","amount":599.99,"status":"PENDING","timestamp":"2025-11-02T10:30:00Z"}
+Accept: application/json
+
+###############################################################################
+# SECTION 5: CROSS-SERVICE WORKFLOW SIMULATION
+# Simulate end-to-end business process across services
+###############################################################################
+
+### Step 1: Create Customer (CRM)
+GET {{customerRelationship}}/api/test/kafka/send?message=WORKFLOW:CUSTOMER_CREATED:CUST999:New Corp
+Accept: application/json
+
+###
+
+### Step 2: Create Order (Commerce)
+GET {{commerce}}/api/test/kafka/send?message=WORKFLOW:ORDER_PLACED:ORD999:CUST999:1299.99
+Accept: application/json
+
+###
+
+### Step 3: Check Inventory (Supply Chain)
+GET {{supplyChain}}/api/test/kafka/send?message=WORKFLOW:INVENTORY_CHECK:ORD999:PROD999:OK
+Accept: application/json
+
+###
+
+### Step 4: Generate Invoice (Financial)
+GET {{financial}}/api/test/kafka/send?message=WORKFLOW:INVOICE_GENERATED:INV999:ORD999:1299.99
+Accept: application/json
+
+###
+
+### Step 5: Create Work Order (Operations)
+GET {{operations}}/api/test/kafka/send?message=WORKFLOW:WORK_ORDER_CREATED:WO999:ORD999:FULFILLMENT
+Accept: application/json
+
+###############################################################################
+# SECTION 6: RAPID FIRE / THROUGHPUT TEST
+# Send multiple messages quickly to test performance
+###############################################################################
+
+### Rapid Fire - 5 Messages to Administration
+GET {{administration}}/api/test/kafka/send?message=RAPID_TEST_1
+###
+GET {{administration}}/api/test/kafka/send?message=RAPID_TEST_2
+###
+GET {{administration}}/api/test/kafka/send?message=RAPID_TEST_3
+###
+GET {{administration}}/api/test/kafka/send?message=RAPID_TEST_4
+###
+GET {{administration}}/api/test/kafka/send?message=RAPID_TEST_5
+
+###############################################################################
+# SECTION 7: BATCH TEST - All Services
+# Send one message to each service quickly
+###############################################################################
+
+### Batch - All Services
+GET {{administration}}/api/test/kafka/send?message=BATCH_TEST:Administration
+###
+GET {{corePlatform}}/api/test/kafka/send?message=BATCH_TEST:CorePlatform
+###
+GET {{customerRelationship}}/api/test/kafka/send?message=BATCH_TEST:CustomerRelationship
+###
+GET {{operations}}/api/test/kafka/send?message=BATCH_TEST:Operations
+###
+GET {{commerce}}/api/test/kafka/send?message=BATCH_TEST:Commerce
+###
+GET {{financial}}/api/test/kafka/send?message=BATCH_TEST:Financial
+###
+GET {{supplyChain}}/api/test/kafka/send?message=BATCH_TEST:SupplyChain
+
+###############################################################################
+# EXPECTED RESPONSES (Standardized Across All Services)
+###############################################################################
+
+# Kafka Ping Response:
+# {
+#   "status": "ok",
+#   "service": "administration",
+#   "kafkaConnected": true,
+#   "timestamp": "2025-11-02T10:30:00Z"
+# }
+
+# Send Message Response:
+# {
+#   "status": "sent",
+#   "message": "Test from Administration",
+#   "topic": "test-topic",
+#   "service": "administration",
+#   "timestamp": "2025-11-02T10:30:00Z"
+# }
+
+# Error Response (if Kafka unavailable):
+# {
+#   "status": "error",
+#   "error": "Kafka connection failed",
+#   "service": "administration",
+#   "timestamp": "2025-11-02T10:30:00Z"
+# }
+
+###############################################################################
+# USAGE INSTRUCTIONS
+###############################################################################
+
+# PREREQUISITES:
+# 1. Kafka running (docker-compose up -d kafka)
+# 2. Services started (.\scripts\test-kafka-endpoints.ps1 or docker-compose up -d)
+# 3. VS Code REST Client extension installed
+
+# TESTING:
+# 1. Click "Send Request" above any ### line
+# 2. View response in right pane
+# 3. Check for "status": "sent" or "status": "ok"
+
+# VERIFY KAFKA IS RECEIVING MESSAGES:
+# Run in PowerShell:
+#   docker exec -it chiro-erp-kafka-1 kafka-console-consumer.sh \
+#     --bootstrap-server localhost:9092 \
+#     --topic test-topic --from-beginning
+
+# TROUBLESHOOTING:
+# Connection Refused:
+#   - Service not running → Start service
+# Kafka Error in Response:
+#   - Kafka not running → docker-compose up -d kafka
+#   - Wrong port → Check application.properties (localhost:9093 for local)
+# Timeout:
+#   - Service starting up → Wait 10 seconds and retry
+
+###############################################################################
+# KAFKA CONFIGURATION REFERENCE
+###############################################################################
+
+# LOCAL DEVELOPMENT (Host Machine):
+# kafka.bootstrap.servers=localhost:9093
+#
+# DOCKER DEPLOYMENT (Container Network):
+# kafka.bootstrap.servers=kafka:9092
+#
+# Port 9092: Internal Docker network (container-to-container)
+# Port 9093: External host access (localhost to container)
+
+###############################################################################
+# SERVICE TOPICS
+###############################################################################
+
+# Each service should have its own topics:
+# - administration-events
+# - core-platform-events
+# - customer-relationship-events
+# - operations-events
+# - commerce-events
+# - financial-events
+# - supply-chain-events
+#
+# Common topics:
+# - test-topic (for these tests)
+# - dead-letter-queue (for failed messages)
