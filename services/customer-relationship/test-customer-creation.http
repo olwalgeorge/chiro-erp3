@@ -1,0 +1,51 @@
+### Create Customer - Retail Customer (triggers CustomerCreatedEvent)
+POST http://localhost:8083/api/crm/customers
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1-555-123-4567",
+  "customerType": "RETAIL",
+  "tenantId": "tenant-001"
+}
+
+### Create Customer - Business Customer (triggers CustomerCreatedEvent)
+POST http://localhost:8083/api/crm/customers
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@business.com",
+  "phone": "+1-555-987-6543",
+  "customerType": "BUSINESS",
+  "tenantId": "tenant-001"
+}
+
+### Create Customer - VIP Customer (triggers CustomerCreatedEvent)
+POST http://localhost:8083/api/crm/customers
+Content-Type: application/json
+
+{
+  "firstName": "Michael",
+  "lastName": "Johnson",
+  "email": "m.johnson@vip.com",
+  "phone": "+1-555-777-8888",
+  "customerType": "VIP",
+  "tenantId": "tenant-001"
+}
+
+### Create Customer - Minimum fields
+POST http://localhost:8083/api/crm/customers
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "test@example.com",
+  "phone": "555-0000",
+  "customerType": "RETAIL",
+  "tenantId": "tenant-001"
+}

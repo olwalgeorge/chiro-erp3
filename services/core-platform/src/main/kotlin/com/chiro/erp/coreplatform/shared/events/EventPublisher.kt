@@ -13,24 +13,53 @@ import org.jboss.logging.Logger
 /**
  * Centralized event publisher for domain events. Handles serialization and routing of events to
  * appropriate Kafka topics.
+ *
+ * Each service should configure the necessary Kafka channels in application.properties. The
+ * publisher routes events to the correct topic-specific channel.
  */
 @ApplicationScoped
-class EventPublisher(
-        @Channel("domain-events-out") private val domainEventsEmitter: Emitter<String>
-) {
+class EventPublisher {
 
     @Inject private lateinit var objectMapper: ObjectMapper
 
     private val logger = Logger.getLogger(EventPublisher::class.java)
 
+    // Topic-specific emitters - services only need to configure the topics they publish to
+    @Inject
+    @Channel("crm-customer-events")
+    private lateinit var customerEventsEmitter: Emitter<String>
+
+    @Inject
+    @Channel("commerce-order-events")
+    private lateinit var orderEventsEmitter: Emitter<String>
+
+    @Inject
+    @Channel("finance-invoice-events")
+    private lateinit var invoiceEventsEmitter: Emitter<String>
+
+    @Inject
+    @Channel("supply-inventory-events")
+    private lateinit var inventoryEventsEmitter: Emitter<String>
+
+    @Inject
+    @Channel("operations-service-order-events")
+    private lateinit var serviceOrderEventsEmitter: Emitter<String>
+
+    @Inject @Channel("platform-user-events") private lateinit var userEventsEmitter: Emitter<String>
+
+    @Inject
+    @Channel("platform-internal-events")
+    private lateinit var internalEventsEmitter: Emitter<String>
+
     /** Publishes a domain event to the appropriate Kafka topic. */
     fun publish(event: DomainEvent) {
         try {
+            val emitter = getEmitterForEvent(event)
             val topic = getTopicForEvent(event)
             val eventJson = serializeEvent(event)
 
-            // Send event to Kafka
-            domainEventsEmitter.send(eventJson)
+            // Send event to Kafka via the appropriate channel
+            emitter.send(eventJson)
 
             logger.info(
                     "Published event: ${event.eventType} " +
@@ -40,6 +69,67 @@ class EventPublisher(
         } catch (e: Exception) {
             logger.error("Failed to publish event: ${event.eventType}", e)
             throw EventPublishingException("Failed to publish event: ${event.eventType}", e)
+        }
+    }
+
+    /** Gets the appropriate emitter for an event. */
+    private fun getEmitterForEvent(event: DomainEvent): Emitter<String> {
+        return when (event) {
+            // Customer events
+            is CustomerCreatedEvent,
+            is CustomerCreditLimitChangedEvent,
+            is CustomerStatusChangedEvent,
+            is CustomerContactUpdatedEvent,
+            is CustomerAssignedEvent -> customerEventsEmitter
+
+            // Order events
+            is OrderCreatedEvent,
+            is OrderLineItemAddedEvent,
+            is OrderStatusChangedEvent,
+            is OrderShippedEvent,
+            is OrderCancelledEvent,
+            is OrderPaymentReceivedEvent -> orderEventsEmitter
+
+            // Invoice events
+            is InvoiceGeneratedEvent,
+            is InvoiceLineItemAddedEvent,
+            is InvoiceSentToCustomerEvent,
+            is InvoicePaymentReceivedEvent,
+            is InvoicePartialPaymentReceivedEvent,
+            is InvoiceCancelledEvent,
+            is InvoiceOverdueEvent -> invoiceEventsEmitter
+
+            // Inventory events
+            is InventoryItemCreatedEvent,
+            is InventoryStockAdjustedEvent,
+            is InventoryStockReservedEvent,
+            is InventoryStockReleasedEvent,
+            is InventoryStockTransferredEvent,
+            is InventoryReorderPointReachedEvent,
+            is InventoryItemDiscontinuedEvent,
+            is InventoryCountCompletedEvent -> inventoryEventsEmitter
+
+            // Service Order events
+            is ServiceOrderCreatedEvent,
+            is ServiceOrderScheduledEvent,
+            is ServiceOrderStartedEvent,
+            is ServiceOrderCompletedEvent,
+            is ServiceOrderCancelledEvent,
+            is ServiceOrderTechnicianAssignedEvent,
+            is ServiceOrderPartUsedEvent -> serviceOrderEventsEmitter
+
+            // User events
+            is UserRegisteredEvent,
+            is UserProfileUpdatedEvent,
+            is UserPasswordChangedEvent,
+            is UserEmailVerifiedEvent,
+            is UserRoleAssignedEvent,
+            is UserRoleRevokedEvent,
+            is UserActivatedEvent,
+            is UserDeactivatedEvent -> userEventsEmitter
+
+            // Platform internal events
+            else -> internalEventsEmitter
         }
     }
 
