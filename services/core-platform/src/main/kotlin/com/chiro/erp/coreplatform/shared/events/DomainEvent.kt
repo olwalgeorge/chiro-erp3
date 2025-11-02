@@ -2,8 +2,15 @@ package com.chiro.erp.coreplatform.shared.events
 
 import java.time.Instant
 
-/** Base event class for all domain events */
-data class DomainEvent(
+/**
+ * Legacy simple event class for testing and backward compatibility. For new domain events, use the
+ * types defined in BaseEvents.kt and specific event files.
+ *
+ * @see BaseEvents.kt for new domain event types
+ * @deprecated Use strongly-typed domain events instead
+ */
+@Deprecated("Use strongly-typed domain events from BaseEvents.kt")
+data class SimpleEvent(
         val eventId: String,
         val eventType: String,
         val serviceName: String,
