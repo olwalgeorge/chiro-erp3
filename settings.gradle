@@ -11,6 +11,7 @@ pluginManagement {
 rootProject.name='chiro-erp'
 
 // Service modules
+include 'services:administration'
 include 'services:analytics-intelligence'
 include 'services:commerce'
 include 'services:core-platform'

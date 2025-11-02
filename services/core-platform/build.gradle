@@ -11,45 +11,22 @@ repositories {
 }
 
 dependencies {
-    // Core Quarkus dependencies
+    // Core Quarkus dependencies only
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
-    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    // Database
-    implementation 'io.quarkus:quarkus-reactive-pg-client'
-    implementation 'io.quarkus:quarkus-jdbc-postgresql'
-
-    // Messaging & Kafka
-    implementation 'io.quarkus:quarkus-messaging-kafka'
-
-    // Redis
-    implementation 'io.quarkus:quarkus-redis-client'
-
-    // Security & OIDC
-    implementation 'io.quarkus:quarkus-oidc'
-    implementation 'io.quarkus:quarkus-security'
-
-    // Keycloak Admin Client (for managing users/realms programmatically)
-    implementation 'io.quarkus:quarkus-keycloak-admin-rest-client'
-
-    // Email
-    implementation 'io.quarkus:quarkus-mailer'
-
-    // Monitoring & Observability
+    // Essential extensions
     implementation 'io.quarkus:quarkus-smallrye-health'
-    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
 
-    // API Documentation
-    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    // Database dependencies (only active in prod)
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
+    implementation 'io.quarkus:quarkus-reactive-pg-client'
 
-    // Testing
     testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
 }
 
-group = 'chiro.erp.core-platform'
+group = 'chiro.erp.coreplatform'
 version = '1.0.0-SNAPSHOT'
 
 java {
@@ -76,4 +53,5 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    kotlinOptions.javaParameters = true
 }

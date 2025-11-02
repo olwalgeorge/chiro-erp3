@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
 }
 
-group = 'chiro.erp.operationsservice'
+group = 'chiro.erp.administration'
 version = '1.0.0-SNAPSHOT'
 
 java {

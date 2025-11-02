@@ -14,33 +14,19 @@ dependencies {
     // Core Quarkus dependencies only
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
-    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    
+
     // Essential extensions
     implementation 'io.quarkus:quarkus-smallrye-health'
+
+    // Database dependencies (only active in prod)
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'
     implementation 'io.quarkus:quarkus-reactive-pg-client'
-    implementation 'io.quarkus:quarkus-security'
-    implementation 'io.quarkus:quarkus-qute'
-    // implementation 'io.quarkiverse.amazonservices:quarkus-amazon-s3:2.15.0'
-    
-    // IoT integration for manufacturing equipment
-    implementation 'io.quarkus:quarkus-websockets'
-    
-    // Compliance & traceability
-    implementation 'io.quarkus:quarkus-security'
-    implementation 'io.quarkus:quarkus-smallrye-jwt'
-    
-    // Notifications for supply chain events
-    implementation 'io.quarkus:quarkus-mailer'
-    
+
     testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.quarkus:quarkus-test-kafka-companion'
-    testImplementation 'io.rest-assured:rest-assured'
-    testImplementation 'io.quarkus:quarkus-test-security'
 }
 
-group = 'chiro.erp.supply-chain-manufacturing'
+group = 'chiro.erp.supplychainmanufacturing'
 version = '1.0.0-SNAPSHOT'
 
 java {
@@ -67,4 +53,5 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    kotlinOptions.javaParameters = true
 }
