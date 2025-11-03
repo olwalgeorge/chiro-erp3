@@ -1,6 +1,6 @@
 package com.chiro.erp.coreplatform.shared.messaging
 
-import com.chiro.erp.coreplatform.shared.events.DomainEvent
+import com.chiro.erp.coreplatform.shared.events.SimpleEvent
 import jakarta.enterprise.context.ApplicationScoped
 import java.util.UUID
 import org.eclipse.microprofile.reactive.messaging.Channel
@@ -15,9 +15,10 @@ class CorePlatformEventProducer(
 ) {
     private val logger = Logger.getLogger(CorePlatformEventProducer::class.java)
 
+    @Suppress("DEPRECATION") // Using SimpleEvent for backward compatibility with test endpoints
     fun publishEvent(eventType: String, payload: String) {
         val event =
-                DomainEvent(
+                SimpleEvent(
                         eventId = UUID.randomUUID().toString(),
                         eventType = eventType,
                         serviceName = "core-platform",
