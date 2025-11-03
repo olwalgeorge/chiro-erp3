@@ -1,6 +1,6 @@
 package com.chiro.erp.customerrelationship.crm.domain
 
-import com.chiro.erp.coreplatform.shared.events.CustomerType
+import com.chiro.erp.shared.events.CustomerType
 import java.time.Instant
 import java.util.UUID
 

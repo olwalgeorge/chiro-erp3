@@ -9,8 +9,8 @@ plugins {
 dependencies {
     // Common dependencies (REST, Jackson, Health, Kafka) inherited from root build.gradle
 
-    // Shared event library
-    implementation project(':services:core-platform')
+    // Shared library (events, EventPublisher, common types)
+    implementation project(':shared-library')
 
     // Service-specific dependencies
     implementation 'io.quarkus:quarkus-hibernate-reactive-panache-kotlin'

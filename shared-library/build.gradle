@@ -1,0 +1,27 @@
+// This is a pure library - inherits common dependencies from root build.gradle
+// but doesn't need Quarkus application tasks
+
+dependencies {
+    // Quarkus dependencies are already included from parent subprojects config
+    // Just add library-specific dependencies here
+
+    // Jackson for JSON serialization (API - services need this too)
+    api 'com.fasterxml.jackson.core:jackson-databind'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    api 'com.fasterxml.jackson.module:jackson-module-kotlin'
+
+    // Logging (API - services need this too)
+    api 'org.jboss.logging:jboss-logging'
+}
+
+// This is a pure library - no main class, no deployment
+group = 'com.chiro.erp'
+version = '1.0.0-SNAPSHOT'
+
+// Disable Quarkus application tasks since this is a library
+tasks.named('quarkusBuild').configure {
+    enabled = false
+}
+tasks.named('quarkusDev').configure {
+    enabled = false
+}

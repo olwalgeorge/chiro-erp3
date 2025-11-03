@@ -1,6 +1,6 @@
 package com.chiro.erp.customerrelationship.crm.interfaces.rest
 
-import com.chiro.erp.coreplatform.shared.events.CustomerType
+import com.chiro.erp.shared.events.CustomerType
 import com.chiro.erp.customerrelationship.crm.application.CreateCustomerCommand
 import com.chiro.erp.customerrelationship.crm.application.CustomerService
 import jakarta.inject.Inject

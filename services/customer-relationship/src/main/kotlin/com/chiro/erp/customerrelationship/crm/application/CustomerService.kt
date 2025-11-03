@@ -1,12 +1,12 @@
 package com.chiro.erp.customerrelationship.crm.application
 
-import com.chiro.erp.coreplatform.shared.events.CustomerContactInfo as EventContactInfo
-import com.chiro.erp.coreplatform.shared.events.CustomerCreatedEvent
-import com.chiro.erp.coreplatform.shared.events.CustomerPersonalInfo as EventPersonalInfo
-import com.chiro.erp.coreplatform.shared.events.CustomerStatus
-import com.chiro.erp.coreplatform.shared.events.CustomerType
-import com.chiro.erp.coreplatform.shared.events.EventMetadata
-import com.chiro.erp.coreplatform.shared.events.EventPublisher
+import com.chiro.erp.shared.events.CustomerContactInfo as EventContactInfo
+import com.chiro.erp.shared.events.CustomerCreatedEvent
+import com.chiro.erp.shared.events.CustomerPersonalInfo as EventPersonalInfo
+import com.chiro.erp.shared.events.CustomerStatus
+import com.chiro.erp.shared.events.CustomerType
+import com.chiro.erp.shared.events.EventMetadata
+import com.chiro.erp.shared.events.EventPublisher
 import com.chiro.erp.customerrelationship.crm.domain.Customer
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
