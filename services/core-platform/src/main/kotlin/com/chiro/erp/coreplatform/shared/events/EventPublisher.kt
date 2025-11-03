@@ -84,51 +84,53 @@ class EventPublisher {
 
             // Order events
             is OrderCreatedEvent,
-            is OrderLineItemAddedEvent,
+            is OrderConfirmedEvent,
             is OrderStatusChangedEvent,
-            is OrderShippedEvent,
             is OrderCancelledEvent,
-            is OrderPaymentReceivedEvent -> orderEventsEmitter
+            is OrderShippedEvent,
+            is OrderDeliveredEvent -> orderEventsEmitter
 
             // Invoice events
-            is InvoiceGeneratedEvent,
-            is InvoiceLineItemAddedEvent,
-            is InvoiceSentToCustomerEvent,
+            is InvoiceCreatedEvent,
+            is InvoiceSentEvent,
             is InvoicePaymentReceivedEvent,
-            is InvoicePartialPaymentReceivedEvent,
+            is InvoicePaidEvent,
+            is InvoiceOverdueEvent,
             is InvoiceCancelledEvent,
-            is InvoiceOverdueEvent -> invoiceEventsEmitter
+            is CreditNoteIssuedEvent -> invoiceEventsEmitter
 
             // Inventory events
-            is InventoryItemCreatedEvent,
-            is InventoryStockAdjustedEvent,
-            is InventoryStockReservedEvent,
-            is InventoryStockReleasedEvent,
-            is InventoryStockTransferredEvent,
-            is InventoryReorderPointReachedEvent,
-            is InventoryItemDiscontinuedEvent,
-            is InventoryCountCompletedEvent -> inventoryEventsEmitter
+            is ProductCreatedEvent,
+            is InventoryAdjustedEvent,
+            is InventoryAllocatedEvent,
+            is InventoryReleasedEvent,
+            is InventoryLowStockEvent,
+            is InventoryOutOfStockEvent,
+            is GoodsReceivedEvent,
+            is MaterialTransferredEvent -> inventoryEventsEmitter
 
             // Service Order events
             is ServiceOrderCreatedEvent,
+            is ServiceOrderAssignedEvent,
             is ServiceOrderScheduledEvent,
             is ServiceOrderStartedEvent,
             is ServiceOrderCompletedEvent,
-            is ServiceOrderCancelledEvent,
-            is ServiceOrderTechnicianAssignedEvent,
-            is ServiceOrderPartUsedEvent -> serviceOrderEventsEmitter
+            is ServiceOrderStatusChangedEvent,
+            is ServiceOrderCancelledEvent -> serviceOrderEventsEmitter
 
-            // User events
-            is UserRegisteredEvent,
-            is UserProfileUpdatedEvent,
-            is UserPasswordChangedEvent,
-            is UserEmailVerifiedEvent,
-            is UserRoleAssignedEvent,
-            is UserRoleRevokedEvent,
+            // User events (Integration Events)
+            is UserCreatedEvent,
+            is UserUpdatedEvent,
             is UserActivatedEvent,
-            is UserDeactivatedEvent -> userEventsEmitter
+            is UserDeactivatedEvent,
+            is UserRoleAssignedEvent,
+            is UserRoleRevokedEvent -> userEventsEmitter
 
-            // Platform internal events
+            // Platform internal events (Domain Events only)
+            is UserLoggedInEvent,
+            is UserPasswordChangedEvent -> internalEventsEmitter
+
+            // Default for unknown events
             else -> internalEventsEmitter
         }
     }
